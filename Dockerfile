@@ -1,8 +1,9 @@
-FROM python:3.6
-MAINTAINER veera "veera.narni232@gmail.com"
-COPY . /app
-WORKDIR /app
+FROM python:3.6  AS build
+WORKDIR /usr/app/
+COPY requirements.txt /usr/app/
 RUN pip install -r requirements.txt
-#ENTRYPOINT ["python"]
+COPY --from=build /usr/local/lib/python:3.6/site-packages /usr/local/lib/python:3.6/site-packages
+COPY --from=build /usr/local/bin/
+COPY ./usr/app/
 EXPOSE 5000
 CMD ["python", "app.py"]
